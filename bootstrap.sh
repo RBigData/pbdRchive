@@ -45,7 +45,7 @@ sudo apt-get install vim git tmux \
 	build-essential libclang-dev clang gfortran \
 	libcurl4-openssl-dev libzmq3-dev libsodium-dev \
 	openmpi-bin libopenmpi-dev libnetcdf-dev \
-	libopenblas-dev libatlas-dev
+	libopenblas-dev libatlas-dev aspell libaspell-dev
 	
 
 ### Set up R
