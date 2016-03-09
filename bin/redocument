@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Find  R pkg root
+while [ ! -e DESCRIPTION ];do
+  cd ..
+  if [ "X`pwd`" = "X/home" ];then
+    echo "ERROR: Couldn't find package!"
+    exit 1
+  fi
+done
+
+Rscript --vanilla -e "roxygen2::roxygenize()"
+
+PKGVER=`grep "Version:" DESCRIPTION | sed -e "s/Version: //"`
+sed -i -e "s/\* \*\*Version:\*\*.*/\* \*\*Version:\*\* $PKGVER/" README.md

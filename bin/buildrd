@@ -1,0 +1,15 @@
+#!/bin/sh
+
+cd ~/R/
+
+export MAKE="/usr/bin/make -j 5"
+
+rm -rf R-devel
+rm *.tar.gz
+
+pkg=R-devel.tar.gz
+
+wget ftp://ftp.stat.math.ethz.ch/Software/R/${pkg}
+tar -zxvf $pkg
+cd R-devel
+./configure --with-x=no --enable-R-shlib=no --with-readline=no --enable-memory-profiling=no --prefix=`pwd` && make && make install

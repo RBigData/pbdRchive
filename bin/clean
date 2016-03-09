@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#./man $1  > /dev/null 2>&1
+
+# Find  R pkg root
+while [ ! -e DESCRIPTION ];do
+  cd ..
+  if [ "X`pwd`" = "X/home" ];then
+    echo "ERROR: Couldn't find package!"
+    exit 1
+  fi
+done
+
+find ./ -name '*~' | xargs rm
+find ./ -name '*.log' | xargs rm
+find ./ -name '*.backup' | xargs rm
+find ./ -name '*.orig' | xargs rm
+
+./cleanup
+

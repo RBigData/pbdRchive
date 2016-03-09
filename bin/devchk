@@ -1,0 +1,48 @@
+#!/bin/sh
+
+#export R_PROFILE=$HOME/R/"
+export R_LIBS="~/R/x86_64-pc-linux-gnu-library/3.2"
+export MAKE="/usr/bin/make -j 5"
+CHKDIR=${HOME}/dev/.RCHECKS/
+RDEV=${HOME}/R/R-devel/bin/R
+
+# Find  R pkg root
+while [ ! -e DESCRIPTION ];do
+  cd ..
+  if [ "X`pwd`" = "X/home" ];then
+    echo "ERROR: Couldn't find package!"
+    exit 1
+  fi
+done
+
+
+PKG=${PWD##*/}
+cd ..
+
+clean $PKG > /dev/null 2>&1
+$RDEV --vanilla CMD build --resave-data --compact-vignettes --md5 $PKG
+
+
+#pkg_nm=`echo $1 | sed -e 's/\///'`
+pkg_nm=`grep "Package:" ${PKG}/DESCRIPTION | sed -e "s/Package: //"`
+
+if [ X$1 = "Xfull" ];then
+  export _R_CHECK_CRAN_INCOMING_=true 
+  export _R_CHECK_CRAN_INCOMING_USE_ASPELL_=true
+else
+  export _R_CHECK_CRAN_INCOMING_=false
+fi
+
+
+OUT=$?
+if [ $OUT -eq 0 ];then
+  pkg_ver=`grep "Version:"  ${PKG}/DESCRIPTION | sed -e "s/Version: //"`
+  pkg="${pkg_nm}_${pkg_ver}.tar.gz"
+
+  mv ${pkg} ${CHKDIR}
+  cd ${CHKDIR}
+
+  ${RDEV} CMD check $pkg --as-cran
+else
+   echo "ERROR: Package build failed"
+fi

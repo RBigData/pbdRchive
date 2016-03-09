@@ -1,0 +1,6 @@
+#!/bin/bash
+
+fil=`echo $1 | sed -e "s,/\+$,," -e "s,^/\+,,"`
+dir="${fil}/"
+
+tar -czf ${fil}.tar.gz ${dir}

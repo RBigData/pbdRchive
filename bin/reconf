@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Find  R pkg root
+while [ ! -e DESCRIPTION ];do
+  cd ..
+  if [ "X`pwd`" = "X/home" ];then
+    echo "ERROR: Couldn't find package!"
+    exit 1
+  fi
+done
+
+if [ ! -e configure.ac ];then
+  echo "ERROR: no configure.ac file!"
+  exit 2
+fi
+
+autoconf configure.ac && autoreconf -if
+rm -r autom4te.cache

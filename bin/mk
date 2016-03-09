@@ -1,0 +1,25 @@
+#!/bin/sh
+
+export MAKE="/usr/bin/make -j 5"
+export RCMD="env MAKE='scan-build make -j 5' R --vanilla CMD INSTALL"
+
+# Find  R pkg root
+while [ ! -e DESCRIPTION ];do
+  cd ..
+  if [ "X`pwd`" = "X/home" ];then
+    echo "ERROR: Couldn't find package!"
+    exit 1
+  fi
+done
+
+export VERBOSE=1
+
+PKG=${PWD##*/}
+
+if [ "X$1" = "Xcleanup" ]; then
+  ./cleanup
+fi
+
+cd ..
+
+eval `echo $RCMD` $PKG

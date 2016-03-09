@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#git init
+branch=`git rev-parse --abbrev-ref HEAD`
+git pull origin $branch
+
+#cd $1
+#git init
+#git fetch --all
+#git reset --hard origin/master
