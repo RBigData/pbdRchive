@@ -75,3 +75,5 @@ mv RBigData.github.io/ ${PBDHOME}/website/
 mv installation-instructions/ pbd-tutorial/ TODO/ ${PBDHOME}/docs
 
 ### TODO fill docs/pbdPKG with vignette and package docs
+
+### TODO run buildrd
