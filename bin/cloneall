@@ -1,0 +1,19 @@
+#!/bin/sh
+### ./cloneall ${PBDHOME}
+
+user=RBigData
+names=`curl -s https://api.github.com/users/${user}/repos | grep full_name | sed -e 's/.*: "\(.*\)",/\1/' -e "s/$user\///g"`
+
+
+PBDHOME=$1
+
+cd ${PBDHOME}/dev
+
+for repo in ${names};do
+  cd ${PBDHOME}/dev
+  if [ -d "$repo" ]; then
+    cd $repo && git pull
+  else
+    git clone "https://github.com/$user/$repo" "$repo"
+  fi
+done

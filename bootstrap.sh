@@ -57,18 +57,19 @@ sudo apt-get install -qq r-base-dev
 
 ### Get all RBigData packages from gh
 user=RBigData
-names=`curl -s https://api.github.com/users/${user}/repos | grep full_name | sed 's/.*: "\(.*\)",/\1/'`
+names=`curl -s https://api.github.com/users/${user}/repos | grep full_name | sed -e 's/.*: "\(.*\)",/\1/' -e "s/$user\///g"`
 
 cd ${PBDHOME}/dev
 
 for repo in ${names};do
   cd ${PBDHOME}/dev
-  # if [ -d "$repo" ]; then
-  #   cd $x && git pull
-  # else
-    git clone "https://github.com/$repo" "$repo"
-  # fi
+  if [ -d "$repo" ]; then
+    cd $repo && git pull
+  else
+    git clone "https://github.com/$user/$repo" "$repo"
+  fi
 done
+
 
 cd ${PBDHOME}/dev
 mv RBigData.github.io/ ${PBDHOME}/website/
