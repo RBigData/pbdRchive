@@ -16,9 +16,14 @@ RUN apt-get update \
 
 
 # some CRAN dependencies
-RUN r -e "install.packages(c('rlecuyer', 'remotes', 'getPass', 'png'), \
-  'sodium', 'data.table', \
-  repos='https://cran.rstudio.com/'', dependencies='Imports')"
+RUN r -e "install.packages(c('rlecuyer', 'remotes', 'getPass', 'png', \
+  'sodium', 'data.table'), \
+  repos='https://cran.rstudio.com/', dependencies='Imports')"
+
+RUN cd /tmp \
+  && wget https://github.com/jalvesaq/colorout/archive/master.zip \
+  && unzip master.zip \
+  && R CMD INSTALL colorout-master/
 
 
 
@@ -60,14 +65,10 @@ RUN mkdir /home/user/R/prof
 
 # some quality of life stuff
 RUN echo "alias R='R --no-save --quiet'" >> /home/user/.bashrc
-RUN echo "options(repos=structure(c(CRAN='https://cran.rstudio.com/''))) ; \
+RUN echo "options(repos=structure(c(CRAN='https://cran.rstudio.com/'))) ; \
   utils::rc.settings(ipck=TRUE); \
+  library(colorout); \
   " > /home/user/.Rprofile
-
-RUN cd /tmp &&
-  wget https://github.com/jalvesaq/colorout/archive/master.zip &&
-  unzip master.zip &&
-  R CMD INSTALL colorout-master/
 
 
 
