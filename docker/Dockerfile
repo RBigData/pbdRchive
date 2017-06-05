@@ -10,7 +10,8 @@ RUN apt-get update \
     ssh \
     r-cran-curl \
     libnetcdf-dev \
-    libsodium-dev
+    libsodium-dev \
+    wget
 
 
 
